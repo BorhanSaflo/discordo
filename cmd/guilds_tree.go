@@ -209,11 +209,20 @@ func (gt *GuildsTree) onSelected(n *tview.TreeNode) {
 			log.Println(err)
 			return
 		}
-
+	
 		sort.Slice(cs, func(i, j int) bool {
+
+			if cs[i].LastMessageID.IsNull() {
+				return false
+			}
+
+			if cs[j].LastMessageID.IsNull() {
+				return true
+			}
+
 			return cs[i].LastMessageID > cs[j].LastMessageID
 		})
-
+	
 		for _, c := range cs {
 			gt.createChannelNode(n, c)
 		}
