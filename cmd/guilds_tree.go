@@ -81,7 +81,7 @@ func (gt *GuildsTree) channelToString(c discord.Channel) string {
 		s = "#" + c.Name
 	case discord.DirectMessage:
 		r := c.DMRecipients[0]
-		s = r.Tag()
+		s = r.DisplayName
 	case discord.GuildVoice:
 		s = "v-" + c.Name
 	case discord.GroupDM:
