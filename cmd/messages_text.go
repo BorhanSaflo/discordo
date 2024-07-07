@@ -107,7 +107,14 @@ func (mt *MessagesText) createHeader(w io.Writer, m discord.Message, isReply boo
 		fmt.Fprintf(mt, "[::d]%s", cfg.Theme.MessagesText.ReplyIndicator)
 	}
 
-	fmt.Fprintf(w, "[%s]%s[-:-:-] ", cfg.Theme.MessagesText.AuthorColor, m.Author.Username)
+	authorName := m.Author.DisplayName
+	
+	member, err := discordState.Member(m.GuildID, m.Author.ID)
+	if err == nil && member.Nick != "" {
+		authorName = member.Nick
+	}
+
+	fmt.Fprintf(w, "[%s]%s[-:-:-] ", cfg.Theme.MessagesText.AuthorColor, authorName)
 
 	if cfg.Timestamps && !cfg.TimestampsBeforeAuthor {
 		fmt.Fprintf(w, "[::d]%s[::-] ", time)
